@@ -1,5 +1,5 @@
 {% set name = "dcc" %}
-{% set version = "0.7.3" %}
+{% set version = "0.8.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/dcc-{{ version }}.tar.gz
-  sha256: 862e3cfa66b803513a2e9d80782a8c8dbaf0426d5e1a9a21a4fd3af8e9235d95
+  sha256: 45bc3d006d3b377cdfd58baed5a4cf7d0bc2d898fa343d19be8179bb5fc968b8
 
 build:
   number: 0
@@ -33,6 +33,12 @@ requirements:
     - tomli-w >=1.0.0
 
 test:
+  requires:
+    - pip
+    - pytest
+    - requests-mock
+  source_files:
+    - tests/
   imports:
     - dcc
     - dcc.env
@@ -40,20 +46,22 @@ test:
     - dcc.parsers
     - dcc.records
     - dcc.sessions
+    - dcc.testing
     - dcc.util
   commands:
+    # Check requirements.
     - python -m pip check
-  requires:
-    - pip
-  commands:
+    # Check CLI.
     - dcc --help
     - dcc archive --help
+    - dcc convert --help
     - dcc list --help
     - dcc open --help
     - dcc open-file --help
-    - dcc scrape --help
     - dcc update --help
     - dcc view --help
+    # Run tests.
+    - python -m pytest tests
 
 about:
   home: https://docs.ligo.org/sean-leavey/dcc/
