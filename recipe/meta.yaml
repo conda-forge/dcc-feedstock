@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/dcc-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/dcc-{{ version }}.tar.gz
   sha256: 45bc3d006d3b377cdfd58baed5a4cf7d0bc2d898fa343d19be8179bb5fc968b8
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
   entry_points:
@@ -19,7 +19,7 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.8
+    - python {{ python_min }}
     - setuptools >=45
     - setuptools_scm >=6.2
   run:
@@ -27,7 +27,7 @@ requirements:
     - ciecplib >=0.4.4
     - click >=7.0.0
     - html2text >=2018.1.9
-    - python >=3.8
+    - python >={{ python_min }}
     - pytz >=2018.3
     - tomli >=2.0.0
     - tomli-w >=1.0.0
@@ -37,6 +37,7 @@ test:
     - pip
     - pytest
     - requests-mock
+    - python {{ python_min }}
   source_files:
     - tests/
   imports:
